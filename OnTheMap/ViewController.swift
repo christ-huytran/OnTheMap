@@ -7,12 +7,21 @@
 //
 
 import UIKit
+import FlatUIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var testButton: FUIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        testButton.buttonColor = UIColor.turquoiseColor()
+        testButton.shadowColor = UIColor.greenSeaColor()
+        testButton.shadowHeight = 3.0
+        testButton.cornerRadius = 6.0
+        testButton.titleLabel!.font = UIFont.boldFlatFontOfSize(16) //[UIFont boldFlatFontOfSize:16];
+        testButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Normal)
+        testButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Highlighted)
     }
 
     override func didReceiveMemoryWarning() {
