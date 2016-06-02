@@ -8,20 +8,24 @@
 
 import UIKit
 import FlatUIKit
+import ChameleonFramework
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var testButton: FUIButton!
+    //@IBOutlet weak var testButton: FUIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        testButton.buttonColor = UIColor.turquoiseColor()
-        testButton.shadowColor = UIColor.greenSeaColor()
-        testButton.shadowHeight = 3.0
-        testButton.cornerRadius = 6.0
-        testButton.titleLabel!.font = UIFont.boldFlatFontOfSize(16) //[UIFont boldFlatFontOfSize:16];
-        testButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Normal)
-        testButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Highlighted)
+        self.navigationController?.navigationBar.backgroundColor = GradientColor(.TopToBottom, frame: (self.navigationController?.navigationBar.frame)!, colors: [FlatPlumDark(), FlatSkyBlueDark()])
+        self.view.backgroundColor = FlatBlueDark()
+        
+//        testButton.buttonColor = UIColor.turquoiseColor()
+//        testButton.shadowColor = UIColor.greenSeaColor()
+//        testButton.shadowHeight = 3.0
+//        testButton.cornerRadius = 6.0
+//        testButton.titleLabel!.font = UIFont.boldFlatFontOfSize(16) //[UIFont boldFlatFontOfSize:16];
+//        testButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Normal)
+//        testButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Highlighted)
     }
 
     override func didReceiveMemoryWarning() {
