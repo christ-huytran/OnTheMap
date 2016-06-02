@@ -13,11 +13,12 @@ import TextFieldEffects
 
 class ViewController: UIViewController {
 
-    //@IBOutlet weak var testButton: FUIButton!
+    //@IBOutlet weak var udacityLoginButton: FUIButton!
     
     @IBOutlet weak var emailTextField: HoshiTextField!
     @IBOutlet weak var passwordTextField: HoshiTextField!
-
+    @IBOutlet weak var udacityLoginButton: FUIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,13 +45,12 @@ class ViewController: UIViewController {
         passwordTextField.leftViewMode = UITextFieldViewMode.Always
         
         
-//        testButton.buttonColor = UIColor.turquoiseColor()
-//        testButton.shadowColor = UIColor.greenSeaColor()
-//        testButton.shadowHeight = 3.0
-//        testButton.cornerRadius = 6.0
-//        testButton.titleLabel!.font = UIFont.boldFlatFontOfSize(16) //[UIFont boldFlatFontOfSize:16];
-//        testButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Normal)
-//        testButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Highlighted)
+        udacityLoginButton.buttonColor = UIColor.turquoiseColor()
+        udacityLoginButton.shadowColor = UIColor.greenSeaColor()
+        udacityLoginButton.shadowHeight = 3.0
+        udacityLoginButton.titleLabel!.font = UIFont.boldFlatFontOfSize(16)
+        udacityLoginButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Normal)
+        udacityLoginButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Highlighted)
     }
 
     override func didReceiveMemoryWarning() {
