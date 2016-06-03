@@ -87,6 +87,9 @@
                                             <constraint firstAttribute="height" constant="30" id="6YQ-8g-X93"/>
                                         </constraints>
                                         <state key="normal" title="Login with Udacity"/>
+                                        <connections>
+                                            <action selector="loginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bda-hy-Sem"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>

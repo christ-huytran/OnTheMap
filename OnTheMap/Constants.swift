@@ -12,7 +12,7 @@ struct Constants {
     
     // MARK: URLs
     static let udacityScheme = "https"
-    static let udacityHost = "udacity.com"
+    static let udacityHost = "www.udacity.com"
     
 }
 

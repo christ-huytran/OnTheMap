@@ -58,6 +58,14 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func loginPressed(sender: FUIButton) {
+        let jsonBody = "{\"udacity\": {\"username\": \"\(emailTextField.text!)\", \"password\": \"\(passwordTextField.text!)\"}}"
+        print(jsonBody)
+        UdacityClient.sharedInstance().authenticateWithViewController(jsonBody) { (success, errorString) in
+            print("DONE AGAIN!")
+        }
+        
+    }
 
 }
 
