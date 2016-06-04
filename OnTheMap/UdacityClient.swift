@@ -17,11 +17,30 @@ class UdacityClient: NSObject {
         super.init()
     }
     
-    func authenticateWithViewController(jsonBody: String, completionHandlerForAuth: (success: Bool, errorString: String?) -> Void) {
+    func authenticateWithViewController(jsonBody: String, completionHandlerForAuth: (success: Bool, errorString: NSError?) -> Void) {
         
         let parameters = [String:AnyObject]()
         taskForPOSTMethod(Methods.AuthenticationSessionNew, parameters: parameters, jsonBody: jsonBody) { (result, error) in
-            print("DONE!")
+            
+            guard (error == nil) else {
+                completionHandlerForAuth(success: false, errorString: error)
+                return
+            }
+            
+            guard let account = result[JSONResponseKeys.Account] as? [String:AnyObject] else {
+                let userInfo = [NSLocalizedDescriptionKey: "Could not find key \(JSONResponseKeys.Account) in result JSON"]
+                completionHandlerForAuth(success: false, errorString: NSError(domain: "authenticateWithViewController", code: 1, userInfo: userInfo))
+                return
+            }
+            
+            guard let registered = account[JSONResponseKeys.Registered] as? Int where registered == 1 else {
+                let userInfo = [NSLocalizedDescriptionKey: "Authentication with Udacity failed"]
+                completionHandlerForAuth(success: false, errorString: NSError(domain: "authenticateWithViewController", code: 1, userInfo: userInfo))
+                return
+            }
+            
+            completionHandlerForAuth(success: true, errorString: nil)
+            
         }
         
     }
@@ -42,7 +61,17 @@ class UdacityClient: NSObject {
             }
             
             let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
-            print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            
+            // print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            
+            var parsedResult: AnyObject!
+            do {
+                parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments)
+            } catch {
+                let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(newData)'"]
+                completionHandlerForPOST(result: nil, error: NSError(domain: "taskForPOSTMethod", code: 1, userInfo: userInfo))
+            }
+            completionHandlerForPOST(result: parsedResult, error: nil)
         }
         
         task.resume()

@@ -22,3 +22,10 @@ struct Methods {
     static let AuthenticationSessionNew = "/api/session"
     
 }
+
+struct JSONResponseKeys {
+    
+    static let Account = "account"
+    static let Registered = "registered"
+    
+}

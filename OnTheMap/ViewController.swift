@@ -62,7 +62,11 @@ class ViewController: UIViewController {
         let jsonBody = "{\"udacity\": {\"username\": \"\(emailTextField.text!)\", \"password\": \"\(passwordTextField.text!)\"}}"
         print(jsonBody)
         UdacityClient.sharedInstance().authenticateWithViewController(jsonBody) { (success, errorString) in
-            print("DONE AGAIN!")
+            
+            if success {
+                print("WORKING")
+            }
+            
         }
         
     }
