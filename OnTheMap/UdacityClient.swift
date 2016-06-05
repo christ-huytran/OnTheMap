@@ -17,25 +17,23 @@ class UdacityClient: NSObject {
         super.init()
     }
     
-    func authenticateWithViewController(jsonBody: String, completionHandlerForAuth: (success: Bool, errorString: NSError?) -> Void) {
+    func authenticateWithViewController(jsonBody: String, completionHandlerForAuth: (success: Bool, errorString: String?) -> Void) {
         
         let parameters = [String:AnyObject]()
         taskForPOSTMethod(Methods.AuthenticationSessionNew, parameters: parameters, jsonBody: jsonBody) { (result, error) in
             
             guard (error == nil) else {
-                completionHandlerForAuth(success: false, errorString: error)
+                completionHandlerForAuth(success: false, errorString: "Login Failed")
                 return
             }
             
             guard let account = result[JSONResponseKeys.Account] as? [String:AnyObject] else {
-                let userInfo = [NSLocalizedDescriptionKey: "Could not find key \(JSONResponseKeys.Account) in result JSON"]
-                completionHandlerForAuth(success: false, errorString: NSError(domain: "authenticateWithViewController", code: 1, userInfo: userInfo))
+                completionHandlerForAuth(success: false, errorString: "Login Failed")
                 return
             }
             
             guard let registered = account[JSONResponseKeys.Registered] as? Int where registered == 1 else {
-                let userInfo = [NSLocalizedDescriptionKey: "Authentication with Udacity failed"]
-                completionHandlerForAuth(success: false, errorString: NSError(domain: "authenticateWithViewController", code: 1, userInfo: userInfo))
+                completionHandlerForAuth(success: false, errorString: "Login Failed")
                 return
             }
             

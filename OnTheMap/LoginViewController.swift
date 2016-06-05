@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LoginViewController.swift
 //  OnTheMap
 //
 //  Created by Huy Tran on 6/1/16.
@@ -11,13 +11,14 @@ import FlatUIKit
 import ChameleonFramework
 import TextFieldEffects
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
 
     //@IBOutlet weak var udacityLoginButton: FUIButton!
     
     @IBOutlet weak var emailTextField: HoshiTextField!
     @IBOutlet weak var passwordTextField: HoshiTextField!
     @IBOutlet weak var udacityLoginButton: FUIButton!
+    @IBOutlet weak var debugTextLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +53,11 @@ class ViewController: UIViewController {
         udacityLoginButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Normal)
         udacityLoginButton.setTitleColor(UIColor.cloudsColor(), forState:UIControlState.Highlighted)
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        debugTextLabel.text = ""
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -63,13 +69,26 @@ class ViewController: UIViewController {
         print(jsonBody)
         UdacityClient.sharedInstance().authenticateWithViewController(jsonBody) { (success, errorString) in
             
-            if success {
-                print("WORKING")
-            }
-            
+            performUIUpdatesOnMain({
+                if success {
+                    self.completeLogin()
+                } else {
+                    self.displayError(errorString)
+                }
+            })
         }
         
     }
-
+    
+    private func completeLogin() {
+        let mapTabBarController = self.storyboard?.instantiateViewControllerWithIdentifier("MapTabBarController") as! UITabBarController
+        self.presentViewController(mapTabBarController, animated: true, completion: nil)
+    }
+    
+    private func displayError(errorString: String?) {
+        if let errorString = errorString {
+            debugTextLabel.text = errorString
+        }
+    }
 }
 
