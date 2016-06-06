@@ -22,15 +22,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func getLocationsFromParseClient() {
-        ParseClient.sharedInstance().getLocationsData { (result, error) in
+        ParseClient.sharedInstance().getLocationsData { (results, error) in
             
             guard (error == nil) else {
                 print(error)
-                return
-            }
-            
-            guard let results = result["results"] as? [[String:AnyObject]] else {
-                print("something went wrong")
                 return
             }
             
@@ -59,7 +54,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             annotations.append(annotation)
         }
-        mapView.addAnnotations(annotations)
+        performUIUpdatesOnMain {
+            self.mapView.addAnnotations(annotations)
+        }
     }
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {

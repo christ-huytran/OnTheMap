@@ -234,10 +234,10 @@
             </objects>
             <point key="canvasLocation" x="2042" y="-40"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Student Table View Controller-->
         <scene sceneID="Fqb-RD-xPM">
             <objects>
-                <tableViewController id="awk-sl-C01" sceneMemberID="viewController">
+                <tableViewController id="awk-sl-C01" customClass="StudentTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="DoS-DO-OMS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -258,6 +258,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="mKz-zK-66Y"/>
+                    <connections>
+                        <outlet property="studentTableView" destination="DoS-DO-OMS" id="5IR-36-Rvj"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dG8-nB-Tet" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -16,7 +16,7 @@ class ParseClient: NSObject {
         super.init()
     }
     
-    func getLocationsData(completionHandlerForLocationsData: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func getLocationsData(completionHandlerForLocationsData: (results: [[String:AnyObject]]!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         let request = NSMutableURLRequest(URL: parseURLFromParameters([:]))
         request.addValue(ParseConstants.ApplicationID, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(ParseConstants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
@@ -25,7 +25,7 @@ class ParseClient: NSObject {
             
             if error != nil {
                 let userInfo = [NSLocalizedDescriptionKey: "There was an error with the request \(error)"]
-                completionHandlerForLocationsData(result: nil, error: NSError(domain: "getLocationsData", code: 1, userInfo: userInfo))
+                completionHandlerForLocationsData(results: nil, error: NSError(domain: "getLocationsData", code: 1, userInfo: userInfo))
             }
             
             //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
@@ -35,10 +35,15 @@ class ParseClient: NSObject {
                 parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
             } catch {
                 let userInfo = [NSLocalizedDescriptionKey: "Could not parse the data as JSON \(data)"]
-                completionHandlerForLocationsData(result: nil, error: NSError(domain: "getLocationsData", code: 1, userInfo: userInfo))
+                completionHandlerForLocationsData(results: nil, error: NSError(domain: "getLocationsData", code: 1, userInfo: userInfo))
             }
             
-            completionHandlerForLocationsData(result: parsedResult, error: nil)
+            guard let results = parsedResult["results"] as? [[String:AnyObject]] else {
+                print("something went wrong")
+                return
+            }
+            
+            completionHandlerForLocationsData(results: results, error: nil)
         }
         
         task.resume()
