@@ -23,17 +23,17 @@ class UdacityClient: NSObject {
         taskForPOSTMethod(Methods.AuthenticationSessionNew, parameters: parameters, jsonBody: jsonBody) { (result, error) in
             
             guard (error == nil) else {
-                completionHandlerForAuth(success: false, errorString: "Login Failed")
+                completionHandlerForAuth(success: false, errorString: "Login failed. Please log in again!")
                 return
             }
             
             guard let account = result[JSONResponseKeys.Account] as? [String:AnyObject] else {
-                completionHandlerForAuth(success: false, errorString: "Login Failed")
+                completionHandlerForAuth(success: false, errorString: "Login failed. Please log in again!")
                 return
             }
             
             guard let registered = account[JSONResponseKeys.Registered] as? Int where registered == 1 else {
-                completionHandlerForAuth(success: false, errorString: "Login Failed")
+                completionHandlerForAuth(success: false, errorString: "Login failed. Please log in again!")
                 return
             }
             
