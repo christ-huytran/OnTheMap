@@ -45,8 +45,7 @@ class UdacityClient: NSObject {
     
     func taskForPOSTMethod(method: String, parameters: [String:AnyObject], jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
 
-        let request = NSMutableURLRequest(URL: udacityURLFromParameter(parameters, withPathExtension: method))
-        print(udacityURLFromParameter(parameters, withPathExtension: method))
+        let request = NSMutableURLRequest(URL: udacityURLFromParameters(parameters, withPathExtension: method))
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -77,7 +76,7 @@ class UdacityClient: NSObject {
         return task
     }
     
-    private func udacityURLFromParameter(parameters: [String:AnyObject], withPathExtension: String? = nil) -> NSURL {
+    private func udacityURLFromParameters(parameters: [String:AnyObject], withPathExtension: String? = nil) -> NSURL {
         
         let components = NSURLComponents()
         components.scheme = Constants.udacityScheme

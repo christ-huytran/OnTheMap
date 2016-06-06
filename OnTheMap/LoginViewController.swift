@@ -66,7 +66,6 @@ class LoginViewController: UIViewController {
 
     @IBAction func loginPressed(sender: FUIButton) {
         let jsonBody = "{\"udacity\": {\"username\": \"\(emailTextField.text!)\", \"password\": \"\(passwordTextField.text!)\"}}"
-        print(jsonBody)
         UdacityClient.sharedInstance().authenticateWithViewController(jsonBody) { (success, errorString) in
             
             performUIUpdatesOnMain({
