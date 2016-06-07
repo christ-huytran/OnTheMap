@@ -53,8 +53,16 @@ class StudentTableViewController: UITableViewController {
         
         cell.textLabel?.text = "\(first) \(last)"
         cell.imageView?.image = UIImage(named: "pin")
+        //cell.detailTextLabel?.text = "\(mediaURL)"
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let app = UIApplication.sharedApplication()
+        if let toOpen = locations[indexPath.row]["mediaURL"] as? String {
+            app.openURL(NSURL(string: toOpen)!)
+        }
     }
     
 }
