@@ -90,12 +90,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let alertController = UIAlertController(title: "", message: "You have already posted a student location. Would you like to overwrite your current location?", preferredStyle: .Alert)
         
         let overwriteAction = UIAlertAction(title: "Overwrite", style: .Default) { (action) -> Void in
-            print("OVERWRITE")
+            let InfoVC = self.storyboard!.instantiateViewControllerWithIdentifier("InfoViewController")
+            self.presentViewController(InfoVC, animated: true, completion: nil)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action) -> Void in
-            print("CANCEL")
-        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
         
         alertController.addAction(overwriteAction)
         alertController.addAction(cancelAction)
