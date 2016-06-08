@@ -85,4 +85,23 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
 
+    
+    @IBAction func showAlert(sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: "", message: "You have already posted a student location. Would you like to overwrite your current location?", preferredStyle: .Alert)
+        
+        let overwriteAction = UIAlertAction(title: "Overwrite", style: .Default) { (action) -> Void in
+            print("OVERWRITE")
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { (action) -> Void in
+            print("CANCEL")
+        }
+        
+        alertController.addAction(overwriteAction)
+        alertController.addAction(cancelAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
 }

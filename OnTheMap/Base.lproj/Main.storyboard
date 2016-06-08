@@ -161,7 +161,7 @@
             </objects>
             <point key="canvasLocation" x="980" y="306"/>
         </scene>
-        <!--Map View Controller-->
+        <!--On The Map-->
         <scene sceneID="JlK-nv-wmC">
             <objects>
                 <viewController id="zF4-sB-vxc" customClass="MapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
@@ -188,7 +188,14 @@
                             <constraint firstItem="1Ri-EZ-Asn" firstAttribute="top" secondItem="bev-Vv-Nyn" secondAttribute="bottom" constant="-20" id="c69-ME-kJw"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="SF0-dl-hh7"/>
+                    <navigationItem key="navigationItem" title="On The Map" id="SF0-dl-hh7">
+                        <barButtonItem key="leftBarButtonItem" image="pin" id="CvE-f3-Nky">
+                            <connections>
+                                <action selector="showAlert:" destination="zF4-sB-vxc" id="omt-HM-MNK"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="SCe-oQ-kmH"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="1Ri-EZ-Asn" id="eOu-NU-RSh"/>
                     </connections>
@@ -215,10 +222,10 @@
             </objects>
             <point key="canvasLocation" x="227" y="-379"/>
         </scene>
-        <!--Map-->
+        <!--On The Map-->
         <scene sceneID="1GC-5i-yGr">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="j9A-YU-xbm" sceneMemberID="viewController">
+                <navigationController title="On The Map" automaticallyAdjustsScrollViewInsets="NO" id="j9A-YU-xbm" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="map" id="Vy2-IS-bos"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="a8k-C1-sNy">
@@ -234,7 +241,7 @@
             </objects>
             <point key="canvasLocation" x="2042" y="-40"/>
         </scene>
-        <!--Student Table View Controller-->
+        <!--On The Map-->
         <scene sceneID="Fqb-RD-xPM">
             <objects>
                 <tableViewController id="awk-sl-C01" customClass="StudentTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
@@ -257,7 +264,10 @@
                             <outlet property="delegate" destination="awk-sl-C01" id="60e-cz-NCB"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="mKz-zK-66Y"/>
+                    <navigationItem key="navigationItem" title="On The Map" id="mKz-zK-66Y">
+                        <barButtonItem key="leftBarButtonItem" image="pin" id="4QO-q9-3pQ"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Pz6-dV-Jvq"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="studentTableView" destination="DoS-DO-OMS" id="5IR-36-Rvj"/>
                     </connections>
@@ -289,6 +299,7 @@
     <resources>
         <image name="list" width="32" height="32"/>
         <image name="map" width="32" height="32"/>
+        <image name="pin" width="32" height="32"/>
         <image name="world" width="85" height="85"/>
     </resources>
 </document>
