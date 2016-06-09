@@ -22,10 +22,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func getLocationsFromParseClient() {
-        ParseClient.sharedInstance().getLocationsData { (results, error) in
+        ParseClient.sharedInstance().getLocationsData { (results, errorString) in
             
-            guard (error == nil) else {
-                print(error)
+            guard (errorString == nil) else {
+                print(errorString)
                 return
             }
             

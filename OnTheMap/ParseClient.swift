@@ -16,16 +16,33 @@ class ParseClient: NSObject {
         super.init()
     }
     
-    func getLocationsData(completionHandlerForLocationsData: (results: [[String:AnyObject]]!, error: NSError?) -> Void) -> NSURLSessionDataTask {
-        let request = NSMutableURLRequest(URL: parseURLFromParameters([:]))
-        request.addValue(ParseConstants.ApplicationID, forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue(ParseConstants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+    func getLocationsData(completionHandlerForLocationsData: (results: [[String:AnyObject]]!, errorString: String?) -> Void) {
         
+        let request = generateRequestToParse([:], withPathExtension: Methods.StudentLocation)
+        
+        sendRequestToParse(request) { (result, error) in
+            
+            guard (error == nil) else {
+                completionHandlerForLocationsData(results: nil, errorString: "Cannot get location data")
+                return
+            }
+            
+            guard let results = result[JSONResponseKeys.Results] as? [[String:AnyObject]] else {
+                completionHandlerForLocationsData(results: nil, errorString: "Cannot get location data")
+                return
+            }
+            
+            completionHandlerForLocationsData(results: results, errorString: nil)
+            
+        }
+    }
+    
+    private func sendRequestToParse(request: NSMutableURLRequest, completionHandlerForParse: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
             if error != nil {
                 let userInfo = [NSLocalizedDescriptionKey: "There was an error with the request \(error)"]
-                completionHandlerForLocationsData(results: nil, error: NSError(domain: "getLocationsData", code: 1, userInfo: userInfo))
+                completionHandlerForParse(result: nil, error: NSError(domain: "getLocationsData", code: 1, userInfo: userInfo))
             }
             
             //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
@@ -35,20 +52,22 @@ class ParseClient: NSObject {
                 parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
             } catch {
                 let userInfo = [NSLocalizedDescriptionKey: "Could not parse the data as JSON \(data)"]
-                completionHandlerForLocationsData(results: nil, error: NSError(domain: "getLocationsData", code: 1, userInfo: userInfo))
+                completionHandlerForParse(result: nil, error: NSError(domain: "sendRequestToParse", code: 1, userInfo: userInfo))
             }
             
-            guard let results = parsedResult["results"] as? [[String:AnyObject]] else {
-                print("something went wrong")
-                return
-            }
-            
-            completionHandlerForLocationsData(results: results, error: nil)
+            completionHandlerForParse(result: parsedResult, error: nil)
         }
         
         task.resume()
         
         return task
+    }
+    
+    private func generateRequestToParse(parameters: [String:AnyObject], withPathExtension: String? = nil) -> NSMutableURLRequest {
+        let request = NSMutableURLRequest(URL: parseURLFromParameters(parameters, withPathExtension: withPathExtension))
+        request.addValue(ParseConstants.ApplicationID, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(ParseConstants.ApiKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        return request
     }
     
     private func parseURLFromParameters(parameters: [String:AnyObject], withPathExtension: String? = nil) -> NSURL {
