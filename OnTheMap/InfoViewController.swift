@@ -9,6 +9,8 @@
 import UIKit
 import FlatUIKit
 import ChameleonFramework
+import CoreLocation
+import AddressBookUI
 
 class InfoViewController: UIViewController, UITextFieldDelegate {
     
@@ -34,8 +36,33 @@ class InfoViewController: UIViewController, UITextFieldDelegate {
         cancelButton.layer.cornerRadius = 5
     }
     
+    @IBAction func pressFindOnTheMap(sender: UIButton) {
+        
+        geoCode(locationTextField.text!)
+        
+    }
+    
     @IBAction func pressCancel(sender: UIButton) {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    private func geoCode(address: String) {
+        CLGeocoder().geocodeAddressString(address) { (placemarks, error) in
+            if error != nil {
+                print(error)
+                return
+            }
+            
+            if placemarks?.count > 0 {
+                let placemark = placemarks?[0]
+                let location = placemark?.location
+                let coordinate = location?.coordinate
+                
+                let mapInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier("MapInfoViewController") as? MapInfoViewController
+                mapInfoVC!.annotation.coordinate = coordinate!
+                self.presentViewController(mapInfoVC!, animated: true, completion: nil)
+            }
+        }
     }
     
     
@@ -47,5 +74,7 @@ class InfoViewController: UIViewController, UITextFieldDelegate {
         locationTextField.resignFirstResponder()
         return true
     }
+    
+    
     
 }

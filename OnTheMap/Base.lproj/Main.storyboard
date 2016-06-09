@@ -276,6 +276,58 @@
             </objects>
             <point key="canvasLocation" x="2854" y="688"/>
         </scene>
+        <!--Map Info View Controller-->
+        <scene sceneID="Ip7-jS-VRY">
+            <objects>
+                <viewController storyboardIdentifier="MapInfoViewController" id="w8O-M9-qwJ" customClass="MapInfoViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hjF-Ws-gO6"/>
+                        <viewControllerLayoutGuide type="bottom" id="mbQ-tg-Vc0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WIS-dr-i5f">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="hls-Ju-hdV">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q7H-sm-d1T">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z38-4g-hjh">
+                                                <rect key="frame" x="252" y="85" width="97" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.15410047769999999" green="0.41306763889999998" blue="0.69063264130000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Kbd-U7-Qqe">
+                                        <rect key="frame" x="0.0" y="200" width="600" height="400"/>
+                                    </mapView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Q7H-sm-d1T" firstAttribute="height" secondItem="hls-Ju-hdV" secondAttribute="height" multiplier="1:3" id="HbN-aV-c07"/>
+                                    <constraint firstItem="Kbd-U7-Qqe" firstAttribute="height" secondItem="hls-Ju-hdV" secondAttribute="height" multiplier="2:3" id="NMB-XY-SWa"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hls-Ju-hdV" firstAttribute="leading" secondItem="WIS-dr-i5f" secondAttribute="leadingMargin" constant="-20" id="9Ym-ct-swY"/>
+                            <constraint firstItem="mbQ-tg-Vc0" firstAttribute="top" secondItem="hls-Ju-hdV" secondAttribute="bottom" id="HQF-c8-HsO"/>
+                            <constraint firstItem="hls-Ju-hdV" firstAttribute="top" secondItem="WIS-dr-i5f" secondAttribute="topMargin" id="ehT-Pf-2AV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hls-Ju-hdV" secondAttribute="trailing" constant="-20" id="iKn-6H-s5I"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="Kbd-U7-Qqe" id="B7B-Yu-hxk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZPC-hp-nNO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2854" y="1405"/>
+        </scene>
         <!--Info View Controller-->
         <scene sceneID="OxQ-QO-xYN">
             <objects>
@@ -369,6 +421,9 @@
                                                         <color key="backgroundColor" red="0.90823972225189209" green="0.92638683319091797" blue="0.9317171573638916" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                         <state key="normal" title="Find on the map"/>
+                                                        <connections>
+                                                            <action selector="pressFindOnTheMap:" destination="bT6-Za-H8t" eventType="touchUpInside" id="blS-6P-8so"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gTg-Ur-Cmf">
                                                         <rect key="frame" x="0.0" y="41" width="145" height="36"/>
@@ -416,7 +471,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s53-Ux-xjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2854" y="1397"/>
+            <point key="canvasLocation" x="2042" y="1405"/>
         </scene>
         <!--List-->
         <scene sceneID="5gN-6H-yFK">
