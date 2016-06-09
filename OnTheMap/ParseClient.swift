@@ -16,6 +16,31 @@ class ParseClient: NSObject {
         super.init()
     }
     
+    func checkStudentLocation(completionHandlerForCheckLocation: (shouldShowAlert: Bool) -> Void) {
+        var parameters = [String:AnyObject]()
+        parameters[ParameterKeys.Where] = "{\"\(ParameterKeys.UniqueKey)\":\"\(UdacityClient.sharedInstance().userID)\"}"
+        let request = generateRequestToParse(parameters, withPathExtension: Methods.StudentLocation)
+        
+        sendRequestToParse(request) { (result, error) in
+            
+            if error != nil {
+                print(error)
+                return
+            }
+            
+            guard let results = result[JSONResponseKeys.Results] as? [[String:AnyObject]] else {
+                completionHandlerForCheckLocation(shouldShowAlert: false)
+                return
+            }
+            
+            if results.count > 0 {
+                completionHandlerForCheckLocation(shouldShowAlert: true)
+            } else {
+                completionHandlerForCheckLocation(shouldShowAlert: false)
+            }
+        }
+    }
+    
     func postStudentLocation(jsonBody: String, completionHandlerForPostStudentLocation: () -> Void) {
         let request = generateRequestToParse([:], withPathExtension: Methods.StudentLocation)
         request.HTTPMethod = "POST"
@@ -25,7 +50,6 @@ class ParseClient: NSObject {
         sendRequestToParse(request) { (result, error) in
             completionHandlerForPostStudentLocation()
         }
-        
     }
     
     func getLocationsData(completionHandlerForLocationsData: (results: [[String:AnyObject]]!, errorString: String?) -> Void) {

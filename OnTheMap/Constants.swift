@@ -25,6 +25,11 @@ struct Methods {
     
 }
 
+struct ParameterKeys {
+    static let Where = "where"
+    static let UniqueKey = "uniqueKey"
+}
+
 struct JSONResponseKeys {
     
     static let Account = "account"

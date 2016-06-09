@@ -90,7 +90,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
 
     
-    @IBAction func showAlert(sender: UIBarButtonItem) {
+    @IBAction func postStudentLocation(sender: UIBarButtonItem) {
+        ParseClient.sharedInstance().checkStudentLocation { (shouldShowAlert) in
+            if shouldShowAlert {
+                self.showAlert()
+            } else {
+                let InfoVC = self.storyboard!.instantiateViewControllerWithIdentifier("InfoViewController")
+                self.presentViewController(InfoVC, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    private func showAlert() {
         let alertController = UIAlertController(title: "", message: "You have already posted a student location. Would you like to overwrite your current location?", preferredStyle: .Alert)
         
         let overwriteAction = UIAlertAction(title: "Overwrite", style: .Default) { (action) -> Void in
@@ -104,6 +115,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         alertController.addAction(cancelAction)
         self.presentViewController(alertController, animated: true, completion: nil)
     }
+    
+    
+    
     
     
     

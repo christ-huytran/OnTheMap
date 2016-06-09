@@ -191,7 +191,7 @@
                     <navigationItem key="navigationItem" title="On The Map" id="SF0-dl-hh7">
                         <barButtonItem key="leftBarButtonItem" image="pin" id="CvE-f3-Nky">
                             <connections>
-                                <action selector="showAlert:" destination="zF4-sB-vxc" id="omt-HM-MNK"/>
+                                <action selector="postStudentLocation:" destination="zF4-sB-vxc" id="msf-PJ-23t"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="SCe-oQ-kmH"/>
