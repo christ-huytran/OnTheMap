@@ -14,6 +14,7 @@ import ChameleonFramework
 class MapInfoViewController: UIViewController, UITextFieldDelegate, MKMapViewDelegate {
     
     let annotation = MKPointAnnotation()
+    var mapString: String!
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var shareLinkTextField: UITextField!
@@ -49,6 +50,7 @@ class MapInfoViewController: UIViewController, UITextFieldDelegate, MKMapViewDel
     }
     
     func addButtonsToView() {
+        // MARK: submitButton
         let submitButton = FUIButton()
         submitButton.frame = CGRectMake(self.view.frame.width/4, self.view.frame.size.height - 90, self.view.frame.size.width/2, 30)
         submitButton.buttonColor = UIColor.turquoiseColor()
@@ -58,9 +60,9 @@ class MapInfoViewController: UIViewController, UITextFieldDelegate, MKMapViewDel
         submitButton.setTitleColor(.whiteColor(), forState: .Normal)
         submitButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
         submitButton.setTitle("Submit", forState: UIControlState.Normal)
-        //submitButton.addTarget(self, action: Selector("send:"), forControlEvents: UIControlEvents.TouchUpInside)
+        submitButton.addTarget(self, action: #selector(MapInfoViewController.pressSubmitLocation), forControlEvents: .TouchUpInside)
         
-        
+        // MARK: cancelButton
         let cancelButton = FUIButton()
         cancelButton.frame = CGRectMake(self.view.frame.width/4, self.view.frame.size.height - 50, self.view.frame.size.width/2, 30)
         cancelButton.buttonColor = UIColor.alizarinColor()
@@ -74,6 +76,18 @@ class MapInfoViewController: UIViewController, UITextFieldDelegate, MKMapViewDel
         
         self.view.addSubview(submitButton)
         self.view.addSubview(cancelButton)
+    }
+    
+    func pressSubmitLocation() {
+        let jsonBody = "{\"uniqueKey\": \(UdacityClient.sharedInstance().userID!), \"firstName\": \"\(UdacityClient.sharedInstance().firstName!)\", \"lastName\": \"\(UdacityClient.sharedInstance().lastName!)\", \"mapString\": \"\(mapString)\", \"mediaURL\": \"https://\(shareLinkTextField.text!)\", \"latitude\": \(annotation.coordinate.latitude), \"longitude\": \(annotation.coordinate.longitude)}"
+        print(jsonBody)
+        
+//        ParseClient.sharedInstance().postStudentLocation(jsonBody) {
+//            let presentingViewController = self.presentingViewController
+//            self.dismissViewControllerAnimated(false, completion: {
+//                presentingViewController!.dismissViewControllerAnimated(true, completion: {})
+//            })
+//        }
     }
     
     func pressCancel() {

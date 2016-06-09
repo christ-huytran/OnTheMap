@@ -60,6 +60,7 @@ class InfoViewController: UIViewController, UITextFieldDelegate {
                 
                 let mapInfoVC = self.storyboard?.instantiateViewControllerWithIdentifier("MapInfoViewController") as? MapInfoViewController
                 mapInfoVC!.annotation.coordinate = coordinate!
+                mapInfoVC!.mapString = address
                 self.presentViewController(mapInfoVC!, animated: true, completion: nil)
             }
         }

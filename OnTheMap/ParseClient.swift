@@ -16,6 +16,18 @@ class ParseClient: NSObject {
         super.init()
     }
     
+    func postStudentLocation(jsonBody: String, completionHandlerForPostStudentLocation: () -> Void) {
+        let request = generateRequestToParse([:], withPathExtension: Methods.StudentLocation)
+        request.HTTPMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        sendRequestToParse(request) { (result, error) in
+            completionHandlerForPostStudentLocation()
+        }
+        
+    }
+    
     func getLocationsData(completionHandlerForLocationsData: (results: [[String:AnyObject]]!, errorString: String?) -> Void) {
         
         let request = generateRequestToParse([:], withPathExtension: Methods.StudentLocation)
@@ -77,7 +89,7 @@ class ParseClient: NSObject {
         components.host = ParseConstants.parseHost
         components.path = ParseConstants.parsePath + (withPathExtension ?? "")
         components.queryItems = [NSURLQueryItem]()
-        
+
         for (key, value) in parameters {
             let queryItem = NSURLQueryItem(name: key, value: "\(value)")
             components.queryItems?.append(queryItem)
