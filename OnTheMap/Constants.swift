@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Constants {
+struct UdacityConstants {
     
     // MARK: URLs
     static let udacityScheme = "https"
@@ -20,6 +20,7 @@ struct Methods {
     
     // MARK: Authentication
     static let AuthenticationSessionNew = "/api/session"
+    static let PublicUserData = "/api/users/{id}"
     
 }
 
@@ -28,6 +29,9 @@ struct JSONResponseKeys {
     static let Account = "account"
     static let Registered = "registered"
     static let Key = "key"
+    static let User = "user"
+    static let FirstName = "first_name"
+    static let LastName = "last_name"
     
 }
 
