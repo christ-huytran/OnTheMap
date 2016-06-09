@@ -11,6 +11,7 @@ import Foundation
 class ParseClient: NSObject {
     
     var session = NSURLSession.sharedSession()
+    var savedLocationID: String?
     
     override init() {
         super.init()
@@ -18,7 +19,7 @@ class ParseClient: NSObject {
     
     func checkStudentLocation(completionHandlerForCheckLocation: (shouldShowAlert: Bool) -> Void) {
         var parameters = [String:AnyObject]()
-        parameters[ParameterKeys.Where] = "{\"\(ParameterKeys.UniqueKey)\":\"\(UdacityClient.sharedInstance().userID)\"}"
+        parameters[ParameterKeys.Where] = "{\"\(ParameterKeys.UniqueKey)\":\"\(UdacityClient.sharedInstance().userID!)\"}"
         let request = generateRequestToParse(parameters, withPathExtension: Methods.StudentLocation)
         
         sendRequestToParse(request) { (result, error) in
@@ -27,6 +28,7 @@ class ParseClient: NSObject {
                 print(error)
                 return
             }
+            print(result)
             
             guard let results = result[JSONResponseKeys.Results] as? [[String:AnyObject]] else {
                 completionHandlerForCheckLocation(shouldShowAlert: false)
@@ -34,6 +36,14 @@ class ParseClient: NSObject {
             }
             
             if results.count > 0 {
+                guard let objectID = results[0][JSONResponseKeys.ObjectID] as? String else {
+                    completionHandlerForCheckLocation(shouldShowAlert: false)
+                    return
+                }
+                
+                // save the objectId of student location
+                self.savedLocationID = objectID
+                
                 completionHandlerForCheckLocation(shouldShowAlert: true)
             } else {
                 completionHandlerForCheckLocation(shouldShowAlert: false)
@@ -49,6 +59,16 @@ class ParseClient: NSObject {
         
         sendRequestToParse(request) { (result, error) in
             completionHandlerForPostStudentLocation()
+        }
+    }
+    
+    func updateStudentLocation(jsonBody: String, completionHandlerForUpdateStudentLocation: () -> Void) {
+        let request = generateRequestToParse([:], withPathExtension: "\(Methods.StudentLocation)/\(savedLocationID!)")
+        request.HTTPMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = jsonBody.dataUsingEncoding(NSUTF8StringEncoding)
+        sendRequestToParse(request) { (result, error) in
+            completionHandlerForUpdateStudentLocation()
         }
     }
     

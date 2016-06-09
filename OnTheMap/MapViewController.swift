@@ -22,6 +22,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        mapView.removeAnnotations(mapView.annotations)
         getLocationsFromParseClient()
     }
     
@@ -93,7 +94,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBAction func postStudentLocation(sender: UIBarButtonItem) {
         ParseClient.sharedInstance().checkStudentLocation { (shouldShowAlert) in
             if shouldShowAlert {
-                self.showAlert()
+                performUIUpdatesOnMain({
+                    self.showAlert()
+                })
             } else {
                 let InfoVC = self.storyboard!.instantiateViewControllerWithIdentifier("InfoViewController")
                 self.presentViewController(InfoVC, animated: true, completion: nil)
@@ -115,10 +118,5 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         alertController.addAction(cancelAction)
         self.presentViewController(alertController, animated: true, completion: nil)
     }
-    
-    
-    
-    
-    
     
 }

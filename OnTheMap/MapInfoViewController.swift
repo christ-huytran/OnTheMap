@@ -79,15 +79,29 @@ class MapInfoViewController: UIViewController, UITextFieldDelegate, MKMapViewDel
     }
     
     func pressSubmitLocation() {
-        let jsonBody = "{\"uniqueKey\": \(UdacityClient.sharedInstance().userID!), \"firstName\": \"\(UdacityClient.sharedInstance().firstName!)\", \"lastName\": \"\(UdacityClient.sharedInstance().lastName!)\", \"mapString\": \"\(mapString)\", \"mediaURL\": \"https://\(shareLinkTextField.text!)\", \"latitude\": \(annotation.coordinate.latitude), \"longitude\": \(annotation.coordinate.longitude)}"
-        print(jsonBody)
+        let jsonBody = "{\"uniqueKey\": \"\(UdacityClient.sharedInstance().userID!)\", \"firstName\": \"\(UdacityClient.sharedInstance().firstName!)\", \"lastName\": \"\(UdacityClient.sharedInstance().lastName!)\", \"mapString\": \"\(mapString)\", \"mediaURL\": \"https://\(shareLinkTextField.text!)\", \"latitude\": \(annotation.coordinate.latitude), \"longitude\": \(annotation.coordinate.longitude)}"
         
-//        ParseClient.sharedInstance().postStudentLocation(jsonBody) {
-//            let presentingViewController = self.presentingViewController
-//            self.dismissViewControllerAnimated(false, completion: {
-//                presentingViewController!.dismissViewControllerAnimated(true, completion: {})
-//            })
-//        }
+        if ParseClient.sharedInstance().savedLocationID != nil {
+            ParseClient.sharedInstance().updateStudentLocation(jsonBody) {
+                performUIUpdatesOnMain({
+                    self.dismissTwoViewControllers()
+                })
+            }
+        } else {
+            ParseClient.sharedInstance().postStudentLocation(jsonBody) {
+                performUIUpdatesOnMain({
+                    self.dismissTwoViewControllers()
+                })
+            }
+        }
+        
+    }
+    
+    private func dismissTwoViewControllers() {
+        let presentingViewController = self.presentingViewController
+        self.dismissViewControllerAnimated(false, completion: {
+            presentingViewController!.dismissViewControllerAnimated(true, completion: {})
+        })
     }
     
     func pressCancel() {

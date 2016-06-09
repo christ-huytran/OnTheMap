@@ -36,6 +36,7 @@ struct JSONResponseKeys {
     static let Registered = "registered"
     static let Key = "key"
     static let Results = "results"
+    static let ObjectID = "objectId"
     static let User = "user"
     static let FirstName = "first_name"
     static let LastName = "last_name"
