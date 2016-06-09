@@ -27,6 +27,7 @@ struct JSONResponseKeys {
     
     static let Account = "account"
     static let Registered = "registered"
+    static let Key = "key"
     
 }
 

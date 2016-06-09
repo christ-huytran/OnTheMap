@@ -11,7 +11,9 @@ import Foundation
 class UdacityClient: NSObject {
 
     var session = NSURLSession.sharedSession()
-    var sessionID: String?
+    var userID: Int?
+    var firstName: String?
+    var lastName: String?
     
     override init() {
         super.init()
@@ -19,6 +21,11 @@ class UdacityClient: NSObject {
     
     func authenticateWithViewController(jsonBody: String, completionHandlerForAuth: (success: Bool, errorString: String?) -> Void) {
         
+        
+        
+    }
+    
+    private func getUserID(jsonBody: String, completionHandlerForUserID: (success: Bool, userID: Int?, errorString: String?)) {
         let parameters = [String:AnyObject]()
         taskForPOSTMethod(Methods.AuthenticationSessionNew, parameters: parameters, jsonBody: jsonBody) { (result, error) in
             
@@ -37,10 +44,35 @@ class UdacityClient: NSObject {
                 return
             }
             
+            guard let userID = account[JSONResponseKeys.Key] as? Int else {
+                completionHandlerForAuth(success: false, errorString: "Login failed. Please log in again!")
+                return
+            }
+            
+            self.userID = userID
+            
             completionHandlerForAuth(success: true, errorString: nil)
+        }
+    }
+    
+    func taskForGETMethod(method: String, parameters: [String:AnyObject], completionHandlerForGET: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        
+        let request = NSMutableURLRequest(URL: udacityURLFromParameters(parameters, withPathExtension: method))
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            if error != nil {
+                return
+            }
+            
+            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))
+            
+            self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForGET)
             
         }
         
+        task.resume()
+        
+        return task
     }
     
     func taskForPOSTMethod(method: String, parameters: [String:AnyObject], jsonBody: String, completionHandlerForPOST: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
@@ -61,19 +93,26 @@ class UdacityClient: NSObject {
             
             // print(NSString(data: newData, encoding: NSUTF8StringEncoding))
             
-            var parsedResult: AnyObject!
-            do {
-                parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments)
-            } catch {
-                let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(newData)'"]
-                completionHandlerForPOST(result: nil, error: NSError(domain: "taskForPOSTMethod", code: 1, userInfo: userInfo))
-            }
-            completionHandlerForPOST(result: parsedResult, error: nil)
+            self.convertDataWithCompletionHandler(newData, completionHandlerForConvertData: completionHandlerForPOST)
+            
         }
         
         task.resume()
         
         return task
+    }
+    
+    private func convertDataWithCompletionHandler(data: NSData, completionHandlerForConvertData: (result: AnyObject!, error: NSError?) -> Void) {
+        
+        var parsedResult: AnyObject!
+        do {
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+        } catch {
+            let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
+            completionHandlerForConvertData(result: nil, error: NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))
+        }
+        completionHandlerForConvertData(result: parsedResult, error: nil)
+        
     }
     
     private func udacityURLFromParameters(parameters: [String:AnyObject], withPathExtension: String? = nil) -> NSURL {
