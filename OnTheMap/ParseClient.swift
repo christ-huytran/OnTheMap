@@ -28,7 +28,6 @@ class ParseClient: NSObject {
                 print(error)
                 return
             }
-            print(result)
             
             guard let results = result[JSONResponseKeys.Results] as? [[String:AnyObject]] else {
                 completionHandlerForCheckLocation(shouldShowAlert: false)
@@ -73,8 +72,10 @@ class ParseClient: NSObject {
     }
     
     func getLocationsData(completionHandlerForLocationsData: (results: [[String:AnyObject]]!, errorString: String?) -> Void) {
-        
-        let request = generateRequestToParse([:], withPathExtension: Methods.StudentLocation)
+        var parameters = [String:AnyObject]()
+        parameters[ParameterKeys.Limit] = 100
+        parameters[ParameterKeys.Order] = "-updatedAt"
+        let request = generateRequestToParse(parameters, withPathExtension: Methods.StudentLocation)
         
         sendRequestToParse(request) { (result, error) in
             

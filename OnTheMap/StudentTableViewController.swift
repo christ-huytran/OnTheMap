@@ -65,4 +65,31 @@ class StudentTableViewController: UITableViewController {
         }
     }
     
+    @IBAction func postStudentLocation(sender: UIBarButtonItem) {
+        ParseClient.sharedInstance().checkStudentLocation { (shouldShowAlert) in
+            if shouldShowAlert {
+                performUIUpdatesOnMain({
+                    self.showAlert()
+                })
+            } else {
+                let InfoVC = self.storyboard!.instantiateViewControllerWithIdentifier("InfoViewController")
+                self.presentViewController(InfoVC, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    private func showAlert() {
+        let alertController = UIAlertController(title: "", message: "You have already posted a student location. Would you like to overwrite your current location?", preferredStyle: .Alert)
+        
+        let overwriteAction = UIAlertAction(title: "Overwrite", style: .Default) { (action) -> Void in
+            let InfoVC = self.storyboard!.instantiateViewControllerWithIdentifier("InfoViewController")
+            self.presentViewController(InfoVC, animated: true, completion: nil)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+        
+        alertController.addAction(overwriteAction)
+        alertController.addAction(cancelAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
 }

@@ -28,6 +28,8 @@ struct Methods {
 struct ParameterKeys {
     static let Where = "where"
     static let UniqueKey = "uniqueKey"
+    static let Limit = "limit"
+    static let Order = "order"
 }
 
 struct JSONResponseKeys {
